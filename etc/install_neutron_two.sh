@@ -5,7 +5,7 @@ if [  -e $PWD/lib/mitaka-log.sh ]
 then	
 	source $PWD/lib/mitaka-log.sh
 else
-	echo -e "\033[41;37m $PWD/mitaka-log.sh is not exist. \033[0m"
+	echo -e " $PWD/mitaka-log.sh is not exist. "
 	exit 1
 fi
 #input variable
@@ -13,12 +13,12 @@ if [  -e $PWD/lib/installrc ]
 then	
 	source $PWD/lib/installrc 
 else
-	echo -e "\033[41;37m $PWD/lib/installr is not exist. \033[0m"
+	echo -e " $PWD/lib/installr is not exist. "
 	exit 1
 fi
 if [  -e /etc/openstack-mitaka_tag/computer.tag  ]
 then
-	echo -e "\033[41;37m Oh no ! you can't execute this script on computer node.  \033[0m"
+	echo -e " Oh no ! you can't execute this script on computer node.  "
 	log_error "Oh no ! you can't execute this script on computer node. "
 	exit 1 
 fi
@@ -28,13 +28,13 @@ fi
 #then 
 #	log_info "cinder have installed ."
 #else
-#	echo -e "\033[41;37m you should install cinder first. \033[0m"
+#	echo -e "[41;37m you should install cinder first. "
 #	exit
 #fi
 
 if [ -f  /etc/openstack-mitaka_tag/install_neutron.tag ]
 then 
-	echo -e "\033[41;37m you haved install neutron \033[0m"
+	echo -e "you haved install neutron "
 	log_info "you haved install neutron."	
 	exit
 fi
@@ -67,7 +67,7 @@ if [ ${USER_NEUTRON}x = neutronx ]
 then
 	log_info "openstack user had created  neutron"
 else
-	openstack user create --domain default  neutron  --password ${ALL_PASSWORD}"
+	openstack user create --domain default  neutron  --password ${ALL_PASSWORD}
 	fn_log "openstack user create neutron  --password ${ALL_PASSWORD}"
 	openstack role add --project service --user neutron admin
 	fn_log "openstack role add --project service --user neutron admin"
@@ -79,9 +79,8 @@ then
 	log_info "openstack service create neutron."
 else
 	openstack service create --name neutron --description "OpenStack Networking" network
-	fn_log "openstack service create --name neutron --description "OpenStack Networking" networ"
+	fn_log "openstack service create --name neutron --description "OpenStack Networking" network"
 fi
-
 
 #检查端点服务是否创建 
 ENDPOINT_LIST_INTERNAL=`openstack endpoint list  | grep network  |grep internal | wc -l`
@@ -354,23 +353,6 @@ then
 	mkdir -p /etc/openstack-mitaka_tag  
 fi
 echo `date "+%Y-%m-%d %H:%M:%S"` >/etc/openstack-mitaka_tag/install_neutron.tag
-echo -e "\033[32m ################################# \033[0m"
-echo -e "\033[32m ##  Install Neutron Sucessed.#### \033[0m"
-echo -e "\033[32m ################################# \033[0m"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+echo -e " ################################# "
+echo -e " ##  Install Neutron Sucessed.#### "
+echo -e " ################################# "

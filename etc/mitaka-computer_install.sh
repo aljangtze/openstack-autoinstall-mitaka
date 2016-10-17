@@ -35,18 +35,42 @@ then
 	exit 1
 fi
 
-yum clean all && yum install openstack-selinux python-openstackclient yum-plugin-priorities -y 
+yum install openstack-selinux python-openstackclient yum-plugin-priorities -y 
 fn_log "yum clean all && yum install openstack-selinux -y "
 
 
-yum clean all &&  yum install openstack-nova-compute -y
+yum install openstack-nova-compute -y
 fn_log "yum clean all &&  yum install openstack-nova-compute sysfsutils -y"
-yum clean all && yum install -y openstack-utils
+yum install -y openstack-utils
 fn_log "yum clean all && yum install -y openstack-utils"
 
 COMPUTER_MANAGER_IP=`cat /etc/hosts | grep -v localhost | grep ${HOSTNAME} | awk -F " " '{print$1}'`
 
-[ -f   /etc/nova/nova.conf_bak  ] || cp -a  /etc/nova/nova.conf /etc/nova/nova.conf_bak && [ -f   /etc/nova/nova.conf_bak  ] || cp -a  /etc/nova/nova.conf /etc/nova/nova.conf_bak && openstack-config --set /etc/nova/nova.conf   DEFAULT  rpc_backend  rabbit && openstack-config --set /etc/nova/nova.conf   oslo_messaging_rabbit  rabbit_host  ${HOST_NAME} && openstack-config --set /etc/nova/nova.conf   oslo_messaging_rabbit  rabbit_userid  openstack && openstack-config --set /etc/nova/nova.conf   oslo_messaging_rabbit  rabbit_password  ${ALL_PASSWORD} && openstack-config --set /etc/nova/nova.conf DEFAULT  auth_strategy  keystone  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  auth_uri  http://${HOST_NAME}:5000  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  auth_url  http://${HOST_NAME}:35357  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  memcached_servers  ${HOST_NAME}:11211  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  auth_type  password && openstack-config --set /etc/nova/nova.conf keystone_authtoken  project_domain_name  default  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  user_domain_name  default  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  project_name  service  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  username  nova  && openstack-config --set /etc/nova/nova.conf keystone_authtoken  password ${ALL_PASSWORD} && openstack-config --set /etc/nova/nova.conf DEFAULT  my_ip  ${COMPUTER_MANAGER_IP} && openstack-config --set /etc/nova/nova.conf DEFAULT  use_neutron  True && openstack-config --set /etc/nova/nova.conf DEFAULT  firewall_driver  nova.virt.firewall.NoopFirewallDriver && openstack-config --set /etc/nova/nova.conf vnc   enabled  True   && openstack-config --set /etc/nova/nova.conf vnc   vncserver_listen  0.0.0.0   && openstack-config --set /etc/nova/nova.conf vnc   vncserver_proxyclient_address  ${COMPUTER_MANAGER_IP}  &&  openstack-config --set /etc/nova/nova.conf vnc   novncproxy_base_url  http://${MANAGER_IP}:6080/vnc_auto.html  &&  openstack-config --set /etc/nova/nova.conf glance  api_servers  http://${HOST_NAME}:9292 && openstack-config --set /etc/nova/nova.conf oslo_concurrency  lock_path  /var/lib/nova/tmp 
+[ -f   /etc/nova/nova.conf_bak  ] || cp -a  /etc/nova/nova.conf /etc/nova/nova.conf_bak && \
+[ -f   /etc/nova/nova.conf_bak  ] || cp -a  /etc/nova/nova.conf /etc/nova/nova.conf_bak && \
+openstack-config --set /etc/nova/nova.conf   DEFAULT  rpc_backend  rabbit && \
+openstack-config --set /etc/nova/nova.conf   oslo_messaging_rabbit  rabbit_host  ${HOST_NAME} && \
+openstack-config --set /etc/nova/nova.conf   oslo_messaging_rabbit  rabbit_userid  openstack && \
+openstack-config --set /etc/nova/nova.conf   oslo_messaging_rabbit  rabbit_password  ${ALL_PASSWORD} && \
+openstack-config --set /etc/nova/nova.conf DEFAULT  auth_strategy  keystone  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  auth_uri  http://${HOST_NAME}:5000  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  auth_url  http://${HOST_NAME}:35357  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  memcached_servers  ${HOST_NAME}:11211  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  auth_type  password && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  project_domain_name  default  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  user_domain_name  default  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  project_name  service  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  username  nova  && \
+openstack-config --set /etc/nova/nova.conf keystone_authtoken  password ${ALL_PASSWORD} && \
+openstack-config --set /etc/nova/nova.conf DEFAULT  my_ip  ${COMPUTER_MANAGER_IP} && \
+openstack-config --set /etc/nova/nova.conf DEFAULT  use_neutron  True && \
+openstack-config --set /etc/nova/nova.conf DEFAULT  firewall_driver  nova.virt.firewall.NoopFirewallDriver && \
+openstack-config --set /etc/nova/nova.conf vnc   enabled  True   && \
+openstack-config --set /etc/nova/nova.conf vnc   vncserver_listen  0.0.0.0   && \
+openstack-config --set /etc/nova/nova.conf vnc   vncserver_proxyclient_address  ${COMPUTER_MANAGER_IP}  &&  \
+openstack-config --set /etc/nova/nova.conf vnc   novncproxy_base_url  http://${MANAGER_IP}:6080/vnc_auto.html  && \
+ openstack-config --set /etc/nova/nova.conf glance  api_servers  http://${HOST_NAME}:9292 && \
+ openstack-config --set /etc/nova/nova.conf oslo_concurrency  lock_path  /var/lib/nova/tmp 
 fn_log "openstack-config --set /etc/nova/nova.conf "
 
 HARDWARE=`egrep -c '(vmx|svm)' /proc/cpuinfo`
@@ -82,10 +106,6 @@ END
 
 
 
-
-
-
-
 cat <<END >/root/demo-openrc.sh  
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_USER_DOMAIN_NAME=default
@@ -103,7 +123,7 @@ openstack compute service list
 fn_log "openstack compute service list"
 
 
-yum clean all && yum install openstack-neutron-linuxbridge ebtables ipset -y
+yum install openstack-neutron-linuxbridge ebtables ipset -y
 fn_log "yum clean all && yum install openstack-neutron-linuxbridge ebtables ipset -y"
 
 [ -f  /etc/neutron/neutron.conf_bak ]  ||  cp -a /etc/neutron/neutron.conf /etc/neutron/neutron.conf_bak   && \
@@ -138,8 +158,6 @@ openstack-config --set   /etc/neutron/plugins/ml2/linuxbridge_agent.ini security
 fn_log "config /etc/neutron/plugins/ml2/linuxbridge_agent.ini"
 
 
-
-
 openstack-config --set  /etc/nova/nova.conf neutron url  http://${HOST_NAME}:9696 && \
 openstack-config --set  /etc/nova/nova.conf neutron auth_url  http://${HOST_NAME}:35357 && \
 openstack-config --set  /etc/nova/nova.conf neutron auth_type  password && \
@@ -162,7 +180,7 @@ fn_log "systemctl enable neutron-linuxbridge-agent.service && systemctl start ne
 
 #for ceilometer
 function fn_install_ceilometer () {
-yum clean all && yum install openstack-ceilometer-compute python-ceilometerclient python-pecan -y
+yum install openstack-ceilometer-compute python-ceilometerclient python-pecan -y
 fn_log "yum clean all && yum install openstack-ceilometer-compute python-ceilometerclient python-pecan -y"
 [ -f /etc/ceilometer/ceilometer.conf_bak ] || cp -a /etc/ceilometer/ceilometer.conf /etc/ceilometer/ceilometer.conf_bak
 openstack-config --set  /etc/ceilometer/ceilometer.conf database connection  mongodb://ceilometer:${ALL_PASSWORD}@${HOSTNAME}:27017/ceilometer

@@ -145,25 +145,28 @@ else
 fi
 
 
-yum upgrade -y 
+#yum upgrade -y 
 fn_log "yum upgrade -y"
 if  [ -f /etc/yum.repos.d/repo.repo ]
 then
 	log_info " use local yum."
 else 
-	rm -rf /etc/yum.repos.d/CentOS-*
+	#rm -rf /etc/yum.repos.d/CentOS-*
 	fn_log "rm -rf /etc/yum.repos.d/CentOS-*"
 fi
 
 if [ -f /etc/yum.repos.d/repo.repo ]
 then
-	cd /etc/yum.repos.d/ &&  rm -rf CentOS-*
+	cd /etc/yum.repos.d/ 
 	fn_log "cd /etc/yum.repos.d/ &&  rm -rf CentOS-*"
 fi
 if  [ ! -d /etc/openstack-mitaka_tag ]
 then
 	mkdir  /etc/openstack-mitaka_tag
 fi
+
+
+yum clean all && yum makecache
 
 echo `date "+%Y-%m-%d %H:%M:%S"` >/etc/openstack-mitaka_tag/presystem-computer.tag
 echo -e "\033[32m ################################# \033[0m"

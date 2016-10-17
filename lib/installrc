@@ -1,10 +1,10 @@
 #controller system information
 HOST_NAME=mitaka-controler
 #controller manager IP
-MANAGER_IP=192.168.100.100
+MANAGER_IP=192.168.100.110
 ALL_PASSWORD=Changeme_123
 #controler secondary net device 
-NET_DEVICE_NAME=eno50332208
+NET_DEVICE_NAME=eno33554984
 #install openstack-nova-compute on controller
 CONTROLLER_COMPUTER=False
 
