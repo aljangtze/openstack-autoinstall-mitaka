@@ -177,13 +177,13 @@ else
 fi
 
 
-if  [ -f /etc/yum.repos.d/repo.repo ]
-then
-	log_info "use local yum."
-else 
-	echo -e "\033[41;37m please configure /etc/yum.repos.d/repo.repo for local repo.  \033[0m"
-	exit 1
-fi
+#if  [ -f /etc/yum.repos.d/repo.repo ]
+#then
+# log_info "use local yum."
+#else 
+#	echo -e "\033[41;37m please configure /etc/yum.repos.d/repo.repo for local repo.  \033[0m"
+#	exit 1
+#fi
 
 
 

@@ -62,12 +62,12 @@ unset http_proxy https_proxy ftp_proxy no_proxy
 
 #检查是否存在neutron用户，如果不存在，重新创建
 source /root/admin-openrc.sh
-USE R_NEUTRON=`openstack user list | grep neutron | awk -F "|" '{print$3}' | awk -F " " '{print$1}'`
+USER_NEUTRON=`openstack user list | grep neutron | awk -F "|" '{print$3}' | awk -F " " '{print$1}'`
 if [ ${USER_NEUTRON}x = neutronx ]
 then
 	log_info "openstack user had created  neutron"
 else
-	openstack user create --domain default  neutron  --password ${ALL_PASSWORD}
+	openstack user create --domain default  neutron  --password ${ALL_PASSWORD}"
 	fn_log "openstack user create neutron  --password ${ALL_PASSWORD}"
 	openstack role add --project service --user neutron admin
 	fn_log "openstack role add --project service --user neutron admin"
@@ -119,7 +119,7 @@ fi
 
 
 #Self-service networks
-yum install openstack-neutron openstack-neutron-ml2   openstack-neutron-linuxbridge ebtables -y
+yum install openstack-neutron openstack-neutron-ml2   openstack-neutron-linuxbridge ebtables -y 
 fn_log "yum clean all && yum install openstack-neutron openstack-neutron-ml2   openstack-neutron-linuxbridge ebtables -y"
 [ -f /etc/neutron/neutron.conf_bak ] || cp -a  /etc/neutron/neutron.conf /etc/neutron/neutron.conf_bak 
 openstack-config --set  /etc/neutron/neutron.conf database connection   mysql+pymysql://neutron:${ALL_PASSWORD}@${NAMEHOST}/neutron &&   \

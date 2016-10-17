@@ -93,7 +93,9 @@ if [  ${ENDPOINT_LIST_INTERNAL}  -eq 1  ]  && [ ${ENDPOINT_LIST_PUBLIC}  -eq  1 
 then
 	log_info "openstack endpoint create nova."
 else
-	openstack endpoint create --region RegionOne   compute public http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s && openstack endpoint create --region RegionOne   compute internal http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s && openstack endpoint create --region RegionOne   compute admin http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s
+	openstack endpoint create --region RegionOne   compute public http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s && \
+	openstack endpoint create --region RegionOne   compute internal http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s && \
+	openstack endpoint create --region RegionOne   compute admin http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s
 	fn_log "openstack endpoint create --region RegionOne   compute public http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s && openstack endpoint create --region RegionOne   compute internal http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s && openstack endpoint create --region RegionOne   compute admin http://${HOSTNAME}:8774/v2.1/%\(tenant_id\)s"
 fi
 

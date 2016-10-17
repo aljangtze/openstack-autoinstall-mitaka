@@ -106,8 +106,7 @@ fn_log "openstack-config --set /etc/keystone/keystone.conf token provider  ferne
 
 #openstack-config --set /etc/keystone/keystone.conf  DEFAULT  verbose  True 
 #fn_log "openstack-config --set /etc/keystone/keystone.conf  DEFAULT  verbose  True "
-GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
-  IDENTIFIED BY 'KEYSTONE_DBPASS';
+
 su -s /bin/sh -c "keystone-manage db_sync" keystone
 fn_log "su -s /bin/sh -c "keystone-manage db_sync" keystone"
 
