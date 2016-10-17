@@ -1,0 +1,41 @@
+#controller system information
+HOST_NAME=mitaka-controler
+#controller manager IP
+MANAGER_IP=192.168.100.100
+ALL_PASSWORD=Changeme_123
+#controler secondary net device 
+NET_DEVICE_NAME=eno50332208
+#install openstack-nova-compute on controller
+CONTROLLER_COMPUTER=False
+
+DATABASE_PASSWORD=root
+
+#For neutron information
+#[FLOATING_METWORK_ADDR]
+NEUTRON_PUBLIC_NET="192.168.243.0/24"
+PUBLIC_NET_GW="192.168.243.2"
+PUBLIC_NET_START="192.168.243.100"
+PUBLIC_NET_END="192.168.243.110"
+SECOND_NET="10.168.10.253/24"
+NEUTRON_DNS="192.168.243.2"
+
+
+#[DEMO_NET_ADDR]
+NEUTRON_PRIVATE_NET="192.168.105.0/24"
+PRIVATE_NET_GW="192.168.105.1"
+PRIVATE_NET_DNS="192.168.105.1"
+
+#For cinder
+#please input disk or partition by blank to separate
+#eg1:CINDER_DISK='/dev/vdb /dev/vdc'
+#eg2:CINDER_DISK='/dev/vdb1 /dev/vdc1'
+#controller disk for cinder 
+#CINDER_DISK='/dev/sdb' 
+#block node disk for cinder
+#BLOCK_CINDER_DISK='/dev/sdb'
+
+
+#for manila
+#please input disk or partition by blank to separate
+#MANILA_DISK='/dev/sdb'
+
